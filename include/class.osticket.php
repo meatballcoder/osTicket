@@ -50,7 +50,8 @@ class osTicket {
     var $csrf;
     var $company;
     var $plugins;
-
+    var $plugin_instance=false;
+    
     function __construct() {
 
         require_once(INCLUDE_DIR.'class.config.php'); //Config helper
@@ -72,6 +73,8 @@ class osTicket {
         return ($this->getConfig() && $this->getConfig()->isHelpDeskOnline() && !$this->isUpgradePending());
     }
 
+    function 
+
     function isUpgradePending() {
 		foreach (DatabaseMigrater::getUpgradeStreams(UPGRADE_DIR.'streams/') as $stream=>$hash)
 			if (strcasecmp($hash,
@@ -79,7 +82,12 @@ class osTicket {
 				return true;
 		return false;
     }
-
+    function isPlugin(){
+		return $this->plugin_instance;
+    }
+    function setPluginInstance($plugin_path){
+		$this->plugin_instance=$plugin_path;
+    }
     function getSession() {
         return $this->session;
     }
